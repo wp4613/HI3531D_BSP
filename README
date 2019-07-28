@@ -1,0 +1,1 @@
+该脚本会自动把/bin/sh软链接指向/bin/bash        （ubuntu中 默认指向/bin/dash）
