@@ -1,1 +1,19 @@
 该脚本会自动把/bin/sh软链接指向/bin/bash        （ubuntu中 默认指向/bin/dash）
+
+1.  同步工程
+    ./build.sh init
+2.  初步构建
+    ./build.sh make
+3.  构建uboot
+    用configs目录下的配置文件替换根下的local.cfg
+    例如:
+        cp cp configs/linkpi.cfg ./local.cfg
+    
+    ./build.sh uboot
+
+
+注意:
+查看./build.sh 支持的所有构建选项:
+    common/目录下所有的build_xxxx.sh皆为可构建项
+    构建方法为:
+    ./build.sh xxxx

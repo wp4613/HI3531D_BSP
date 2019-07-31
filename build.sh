@@ -1,6 +1,6 @@
 #!/bin/bash
 sh_exec=$(ls -lh /bin/sh | awk '{print $11}')
-TOP_DIRECTOR=$(pwd)
+export TOP_DIRECTOR=$(pwd)
 if [ "x"$sh_exec != "xbash" ];then
     sudo rm /bin/sh
     sudo ln -s /bin/bash /bin/sh
