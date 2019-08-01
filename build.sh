@@ -18,7 +18,7 @@ if [ ! -f common/build_$1.sh ];then
     echo './build.sh init|make'
     exit -1
 fi
-echo ' start $1...'
+echo " start $1..."
     common/build_$1.sh
-echo ' start $1...'
+echo " end $1..."
 

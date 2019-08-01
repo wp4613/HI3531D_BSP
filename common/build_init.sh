@@ -2,6 +2,7 @@
 which ${CROSS_COMPILER_PREFIX}-gcc
 if [ $? != 0 ];then
     pushd SDK_package
+
     if [ -d ${CROSS_COMPILER_PREFIX} ];then
         rm ${CROSS_COMPILER_PREFIX} -rf
     fi
