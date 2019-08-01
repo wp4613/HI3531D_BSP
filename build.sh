@@ -19,6 +19,6 @@ if [ ! -f common/build_$1.sh ];then
     exit -1
 fi
 echo " start $1..."
-    common/build_$1.sh
+    common/build_$1.sh $2
 echo " end $1..."
 
