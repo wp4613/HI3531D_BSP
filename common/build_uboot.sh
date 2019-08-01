@@ -2,6 +2,9 @@
 
 pushd ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/opensource/uboot/u-boot-2010.06/
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- ${BOARD_UBOOT_CONFIG}
+if [ "x${UBOOT_CONFIG_INC}" != "x" ];then
+    cp ${TOP_DIRECTOR}/resource/uboot/${UBOOT_CONFIG_INC} include/configs/
+fi
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- -j
 cp u-boot.bin ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/pc/uboot_tools/
 pushd ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/pc/uboot_tools/
