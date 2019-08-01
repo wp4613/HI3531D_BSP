@@ -11,9 +11,29 @@
     
     ./build.sh uboot
 
+4.  构建内核
+    ./build.sh kernel
+
 
 注意:
-查看./build.sh 支持的所有构建选项:
+1.查看./build.sh 支持的所有构建选项:
     common/目录下所有的build_xxxx.sh皆为可构建项
     构建方法为:
     ./build.sh xxxx
+2.
+    1.0.3版sdk提供的烧写镜像工具HiTools只能在烧写uboot时同时烧写内核才行，单独烧内核不成功。2.0.4版sdk的烧写工具无此问题。
+
+命令:
+    ./build.sh clean
+
+uboot 环境变量:
+    nand启动
+        setenv bootcmd nand read 0x42000000 0x100000 0x400000;bootm 0x42000000
+        setenv bootargs mem=512M console=ttyAMA0,115200 ubi.mtd=2 root=ubi0:ubifs rootflags=sync rootfstype=ubifs rw mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
+
+    nfs启动:
+        setenv bootargs 512M console=ttyAMA0,115200 root=/dev/nfs rw nfsroot=192.168.10.167:/home/linkpi/work/3531D/fs,proto=tcp ip=192.168.10.75 init=/linuxrc mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
+        或使用变量引用参数:
+        setenv bootargs 512M console=ttyAMA0,115200 root=/dev/nfs rw nfsroot=${serverip}:${nfs_rootpath},proto=tcp ip=${ipaddr} init=/linuxrc mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
+
+        setenv bootcmd nand read 0x42000000 0x100000 0x400000;bootm 0x42000000
