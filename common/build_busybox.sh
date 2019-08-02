@@ -25,6 +25,8 @@ fi
 mkdir ${TOP_DIRECTOR}/build/out/rootfs 
 
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
+mkdir ${TOP_DIRECTOR}/build/out/rootfs/var/empty
+cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/rootfs/sbin/
 
 #busybox 文件系统暂时挂载无反应
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/etc ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
