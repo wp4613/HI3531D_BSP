@@ -9,7 +9,7 @@ if [ $? != 0 ];then
     tar -xvf ${CROSS_COMPILER_PREFIX}.tgz
     pushd ${CROSS_COMPILER_PREFIX}
     sudo ./${CROSS_COMPILER_PREFIX}.install
-    sudo apt install lib32z1 lib32ncurses5
+    sudo apt install lib32z1 lib32ncurses5 cmake
     echo please input : source /etc/profile
     popd
     rm ${CROSS_COMPILER_PREFIX} -rf
