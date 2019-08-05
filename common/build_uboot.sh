@@ -6,13 +6,14 @@ if [ "x"$1 != "x" ];then
   case $1 in
     clean)
         make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- distclean
+        exit 0
         ;;
     force)
         echo 'uboot distclean ...'
         make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- distclean
         ;;
     *)
-        echo './build.sh clean|install'
+        echo './build.sh clean|force'
   esac
 
 fi
