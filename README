@@ -7,7 +7,7 @@
 3.  构建uboot
     用configs目录下的配置文件替换根下的local.cfg
     例如:
-        cp cp configs/linkpi.cfg ./local.cfg
+        cp configs/linkpi.cfg ./local.cfg
     
     ./build.sh uboot
 
@@ -37,7 +37,7 @@
 uboot 环境变量:
     nand启动
         setenv bootcmd nand read 0x42000000 0x100000 0x400000;bootm 0x42000000
-        setenv bootargs mem=512M console=ttyAMA0,115200 ubi.mtd=2 root=ubi0:ubifs rootflags=sync rootfstype=ubifs rw mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
+        setenv bootargs mem=512M console=ttyAMA0,115200 ip=${ipaddr}::${gateway}:${netmask}  ubi.mtd=2 root=ubi0:ubifs rootflags=sync rootfstype=ubifs rw mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
 
     nfs启动:
         setenv bootargs 512M console=ttyAMA0,115200 root=/dev/nfs rw nfsroot=192.168.10.167:/home/linkpi/work/3531D/fs,proto=tcp ip=192.168.10.75 init=/linuxrc mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
