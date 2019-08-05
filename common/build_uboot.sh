@@ -1,6 +1,22 @@
 #!/bin/bash
 
 pushd ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/opensource/uboot/u-boot-2010.06/
+
+if [ "x"$1 != "x" ];then
+  case $1 in
+    clean)
+        make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- distclean
+        ;;
+    force)
+        echo 'uboot distclean ...'
+        make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- distclean
+        ;;
+    *)
+        echo './build.sh clean|install'
+  esac
+
+fi
+
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- ${BOARD_UBOOT_CONFIG}
 if [ "x${UBOOT_CONFIG_INC}" != "x" ];then
     cp ${TOP_DIRECTOR}/resource/uboot/${UBOOT_CONFIG_INC} include/configs/

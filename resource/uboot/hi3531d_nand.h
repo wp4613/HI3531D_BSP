@@ -25,7 +25,7 @@
 
 
 /*-----------------------------------------------------------------------
- * zxr for hidoo mvr card 3531d
+ * zxr
  *----------------------------------------------------------------------*/
 #if 1
 #define    CONFIG_SYS_HUSH_PARSER
@@ -34,6 +34,7 @@
 #define  CONFIG_CMD_ECHO
 #define  CONFIG_CMD_RUN
 #endif //1
+
 
 
 /*-----------------------------------------------------------------------
@@ -67,7 +68,7 @@
 /*-----------------------------------------------------------------------
  * Hisilicon Flash Memory Controller Configuration
  *----------------------------------------------------------------------*/
-#define CONFIG_HIFMC
+/* #define CONFIG_HIFMC */
 
 #ifdef CONFIG_HIFMC
 	#define CONFIG_HIFMC_SPI_NOR
@@ -105,8 +106,10 @@
 
 /*-----------------------------------------------------------------------
  * NAND Flash Configuration
+ * Notes: Parallel nand is separate, and can not be using with spi flash
+ *		on Hi3531D, as the multi-function of pin.
  *----------------------------------------------------------------------*/
-/* #define CONFIG_NAND_SUPPORT */
+#define CONFIG_NAND_SUPPORT
 
 #ifdef CONFIG_NAND_SUPPORT
 	#define CONFIG_CMD_NAND
@@ -231,7 +234,7 @@
 	#define CONFIG_GMAC_NUMS			1
 	#define HIGMAC0_IOBASE				GSF_REG_BASE
 
-	#define CONFIG_HIGMAC_PHY1_ADDR			1
+	#define CONFIG_HIGMAC_PHY1_ADDR			4   //zxr for hidoo
 
 	#define CONFIG_HIGMAC_PHY1_INTERFACE_MODE	2
 
