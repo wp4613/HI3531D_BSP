@@ -23,20 +23,6 @@
 
 #include <asm/arch/platform.h>
 
-
-/*-----------------------------------------------------------------------
- * zxr
- *----------------------------------------------------------------------*/
-#if 1
-#define    CONFIG_SYS_HUSH_PARSER
-#define CONFIG_SYS_PROMPT_HUSH_PS2      "> "
-
-#define  CONFIG_CMD_ECHO
-#define  CONFIG_CMD_RUN
-#endif //1
-
-
-
 /*-----------------------------------------------------------------------
  * cpu_init configuration
  * if bit[3:2] = 01b, AXI = 200M
@@ -206,6 +192,15 @@
 /*-----------------------------------------------------------------------
  * for commond configure
  -----------------------------------------------------------------------*/
+/*******************************zxr>>>>>>>>>>****************************/
+#define CONFIG_SYS_LONGHELP
+#define CONFIG_CMD_ECHO
+#define CONFIG_CMD_RUN
+#define CONFIG_SYS_HUSH_PARSER
+#ifdef  CONFIG_SYS_HUSH_PARSER
+#define CONFIG_SYS_PROMPT_HUSH_PS2      "> "
+#endif
+/*******************************zxr<<<<<<<<<<****************************/
 /* tftp comm */
 #define CONFIG_TFTP_TSIZE
 

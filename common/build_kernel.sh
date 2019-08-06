@@ -25,7 +25,7 @@ fi
 if [ -f ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} ];then
     cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} arch/arm/boot/dts/
 fi
-cp  ${TOP_DIRECTOR}/resource/kernel/higmac.c drivers/net/ethernet/hisilicon/higmac/
+cp ${TOP_DIRECTOR}/resource/kernel/at803x.c drivers/net/phy/  #v2.0.4.0/v1.0.3.0双版本通用
 if [ $? != 0 ];then
     echo "cp higmac.c 失败!!"
     exit 1
