@@ -19,8 +19,17 @@ if [ "x"$1 != "x" ];then
   esac
 
 fi
-
-cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_CONFIG} arch/arm/configs/
+if [ -f ${TOP_DIRECTOR}/resource/kernel/${KERNEL_CONFIG} ];then
+    cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_CONFIG} arch/arm/configs/
+fi
+if [ -f ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} ];then
+    cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} arch/arm/boot/dts/
+fi
+cp  ${TOP_DIRECTOR}/resource/kernel/higmac.c drivers/net/ethernet/hisilicon/higmac/
+if [ $? != 0 ];then
+    echo "cp higmac.c 失败!!"
+    exit 1
+fi
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- ${KERNEL_CONFIG}
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- -j uImage
 cp arch/arm/boot/uImage ${TOP_DIRECTOR}/build/out/

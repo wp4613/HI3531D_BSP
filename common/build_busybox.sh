@@ -28,6 +28,9 @@ if [ ! -d ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/ ];then
 fi
 
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/lib/* ${TOP_DIRECTOR}/build/out/rootfs/lib/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/ko ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
+
 mkdir ${TOP_DIRECTOR}/build/out/rootfs/var/empty
 cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/rootfs/sbin/
 

@@ -15,7 +15,14 @@ if [ $? != 0 ];then
     rm ${CROSS_COMPILER_PREFIX} -rf
     popd #SDK_package
 fi
-
+which gcc
+if [ $? != 0 ];then
+    sudo apt install gcc
+fi
+which g++
+if [ $? != 0 ];then
+    sudo apt install g++
+fi
 if [ ! -d build/${HI3531D_SDK} ];then
     tar -xvf SDK_package/${HI3531D_SDK}.tgz -C build/
     pushd build/${HI3531D_SDK}

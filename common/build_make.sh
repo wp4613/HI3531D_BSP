@@ -17,3 +17,8 @@ popd
 pushd build/${HI3531D_SDK}/osdrv/
 OSDRV_CROSS=${CROSS_COMPILER_PREFIX} make
 popd
+
+cp resource/SDK/${HI3531D_SDK}/mpp/sample/* build/${HI3531D_SDK}/mpp/sample/ -rfd
+pushd build/${HI3531D_SDK}/mpp/sample/vio
+make
+popd
