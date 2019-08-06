@@ -13,7 +13,7 @@ if [ $? != 0 ];then
     echo please input : source /etc/profile
     popd
     rm ${CROSS_COMPILER_PREFIX} -rf
-    popd#SDK_package
+    popd #SDK_package
 fi
 
 if [ ! -d build/${HI3531D_SDK} ];then
