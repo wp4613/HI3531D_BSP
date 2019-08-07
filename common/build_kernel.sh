@@ -22,8 +22,9 @@ fi
 if [ -f ${TOP_DIRECTOR}/resource/kernel/${KERNEL_CONFIG} ];then
     cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_CONFIG} arch/arm/configs/
 fi
+cp ${TOP_DIRECTOR}/resource/kernel/hi3531d.dtsi arch/arm/boot/dts/      
 if [ -f ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} ];then
-    cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} arch/arm/boot/dts/
+    cp ${TOP_DIRECTOR}/resource/kernel/${KERNEL_DTS} arch/arm/boot/dts/hi3531d-demb.dts
 fi
 cp ${TOP_DIRECTOR}/resource/kernel/at803x.c drivers/net/phy/  #v2.0.4.0/v1.0.3.0双版本通用
 if [ $? != 0 ];then

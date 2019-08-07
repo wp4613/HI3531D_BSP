@@ -48,10 +48,53 @@
 		device_type = "memory";
 		reg = <0x40000000 0xc0000000>;
 	};
+
 };
 
 &uart0 {
 	status = "okay";
+};
+
+&i2c_bus0 {
+	status = "okay";
+	clock-frequency = <100000>;
+
+	i2c-switch@70 {
+		compatible = "nxp,pca9548";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x70>;
+
+		i2c@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+
+		};
+		i2c@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+
+			eeprom@54 {
+				compatible = "at,24c08";
+				reg = <0x54>;
+			};
+		};
+
+		i2c@2 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <2>;
+
+			rtc@51 {
+				compatible = "nxp,pcf8563";
+				reg = <0x51>;
+			};
+		};
+	};
+/*	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pmux >;  */
 };
 
 &spi_bus0{
