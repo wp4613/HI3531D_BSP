@@ -151,30 +151,7 @@
 			status = "disabled";
 		};
 
-/*****
-		i2c_bus0: i2c@120c0000 {
-			compatible = "hisilicon,hisi-i2c-v110",
-				"hisilicon,hibvt-i2c";
-		    #address-cells = <1>;
-		    #size-cells = <0>;
-			reg = <0x120c0000 0x1000>;
-			clocks = <&clock HI3531D_FIXED_3M>;
-			status = "disabled";
-		};
 
-        **/
-                     i2c_bus0: i2c@0 {                                                            
-                         compatible = "i2c-gpio";                                       
-                         gpios = <&gpio19 6 0 /* sda */                                                                                                                                                                           
-                             &gpio19 7 0 /* scl */                                   
-                             >;                                                      
-                         i2c-gpio,sda-open-drain;                                    
-                         i2c-gpio,scl-open-drain;                                    
-                         i2c-gpio,delay-us = <2>;    /* ~100 kHz */                  
-                        #address-cells = <1>;                                       
-                        #size-cells = <0>;                                          
-
-                     };
 		spi_bus0: spi@120d0000 {
 				compatible = "arm,pl022", "arm,primecell";
 				arm,primecell-periphid = <0x00800022>;
