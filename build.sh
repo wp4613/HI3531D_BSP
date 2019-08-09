@@ -21,4 +21,6 @@ fi
 echo " start $1..."
     common/build_$1.sh $2
 echo " end $1..."
-
+if [ ! -d resource/hidoo ];then
+    mkdir resource/hidoo
+fi

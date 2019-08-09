@@ -142,8 +142,8 @@
 
 	i2c1_pmux: i2c1_pmux {
 		pinctrl-single,pins = <
-			0x0148 0x2	/*I2C1_SDA*/
-			0x014C 0x2	/*I2C1_SCL*/
+			0x0148 0x0	/*I2C1_SDA*/
+			0x014C 0x0	/*I2C1_SCL*/
 		>;
 	};
 
@@ -301,7 +301,7 @@
 	i2s1_pmux: i2s1_pmux {
 		pinctrl-single,pins = <
 			0x013c 0x1 /*I2S1_BCLK_RX*/
-			0x0140 0x1 /*I2S1_WS_RX*/
+			0x0140 0x0 /*I2S1_WS_RX*/ /* gpio11_4 fpga_program */
 			0x0144 0x1 /*I2S1_SD_RX*/
 		>;
 	};
