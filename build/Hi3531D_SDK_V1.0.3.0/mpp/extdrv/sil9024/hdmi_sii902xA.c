@@ -38,12 +38,35 @@
 #include "siHdmiTx_902x_TPI.h"
 
 #define DRIVER_VER "1.4"
+
+#define CI2CA false
+#ifdef CI2CA
+#define SII902xA_plus 0x02  //Define sii902xA's I2c Address of all pages by the status of CI2CA pin.
+#else
+#define SII902xA_plus 0x00  //Define sii902xA's I2c Address of all pages by the status of CI2CA pin.
+#endif
+
+static void HDMI_reset(void)
+{
+    gpio_set_value(IOMUX_TO_GPIO(MX51_PIN_CSI1_D8), 0);
+    msleep(200);
+    gpio_set_value(IOMUX_TO_GPIO(MX51_PIN_CSI1_D8), 3);
+}
+
+struct platform_data {
+    void (*reset) (void);
+};
+
+static struct platform_data HDMI_data = {
+    .reset = HDMI_reset,
+};
+
 #ifdef I2C_INTERNAL
 static struct i2c_board_info hi_info =
 {
-    I2C_BOARD_INFO("nvp6134", 0x60),
+    I2C_BOARD_INFO("sil9204", 0x39),
 };
-static struct i2c_client* nvp6134_client;
+static struct i2c_client* sil9024_client;
 #endif
 
 #define DEVICE_NAME "sii902xA"
@@ -110,7 +133,7 @@ static int i2c_client_init(void)
 //	printk("HI_CHIP_HI3531D\n");
     i2c_adap = i2c_get_adapter(1);
     #endif
-    nvp6134_client = i2c_new_device(i2c_adap, &hi_info);
+    sil9024_client = i2c_new_device(i2c_adap, &hi_info);
     i2c_put_adapter(i2c_adap);
 
     return 0;
@@ -118,7 +141,7 @@ static int i2c_client_init(void)
 
 static void i2c_client_exit(void)
 {
-    i2c_unregister_device(nvp6134_client);
+    i2c_unregister_device(sil9204_client);
 }
 #endif
 
@@ -276,7 +299,7 @@ static int __init hdmi_sii_init(void)
     i2c_client_init();
 	#endif
 
-    hdmi_sii_probe();
+    hdmi_sii_probe(sil9024_client,hmdi_sii_id[0]);
 }
 
 static void __exit hdmi_sii_exit(void)
