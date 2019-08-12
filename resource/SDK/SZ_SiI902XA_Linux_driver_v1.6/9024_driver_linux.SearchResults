@@ -1,0 +1,7 @@
+---- EnableInterrupts Matches (6 in 1 files) ----
+siHdmiTx_902x_TPI.c (hdmi):// Function Name: EnableInterrupts()
+siHdmiTx_902x_TPI.c (hdmi):byte EnableInterrupts(byte Interrupt_Pattern)
+siHdmiTx_902x_TPI.c (hdmi):    	TPI_TRACE_PRINT((">>EnableInterrupts()\n"));
+siHdmiTx_902x_TPI.c (hdmi):			EnableInterrupts(HOT_PLUG_EVENT | RX_SENSE_EVENT | AUDIO_ERROR_EVENT | SECURITY_CHANGE_EVENT | HDCP_CHANGE_EVENT);
+siHdmiTx_902x_TPI.c (hdmi):		EnableInterrupts(HOT_PLUG_EVENT | RX_SENSE_EVENT );//| AUDIO_ERROR_EVENT);
+siHdmiTx_902x_TPI.c (hdmi):		EnableInterrupts(HOT_PLUG_EVENT);
