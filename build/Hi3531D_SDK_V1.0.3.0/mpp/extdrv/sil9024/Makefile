@@ -2,8 +2,9 @@
 # Makefile for HDMI sii9022 chip drivers.
 
 #obj-$(CONFIG_HDMI_Sii902xA)	+= SiIIIC.o
-obj-$(CONFIG_HDMI_Sii902xA)	+= siHdmiTx_902x_TPI.o	#zxr
-obj-$(CONFIG_HDMI_Sii902xA)	+= hdmi_sii902xA.o		#zxr
+#obj-$(CONFIG_HDMI_Sii902xA)	+= siHdmiTx_902x_TPI.o	#zxr
+#obj-$(CONFIG_HDMI_Sii902xA)	+= hdmi_sii902xA.o		#zxr
+#hdmi_sii902xA_ex-objs := siHdmiTx_902x_TPI.o	#zxr
 #obj-$(CONFIG_HDMI_Sii902xA)	+= hdmi_EDID.o
 
 #ccflags-$(CONFIG_I2C_DEBUG_BUS) := -DDEBUG
@@ -14,8 +15,9 @@ ifeq ($(PARAM_FILE), )
 	PARAM_FILE:=../../Makefile.param
 		include $(PARAM_FILE)
 endif
-obj-m += siHdmiTx_902x_TPI.o
-obj-m += hdmi_sii902xA.o
+#obj-m += siHdmiTx_902x_TPI.o
+obj-m += sii902xA.o
+sii902xA-objs := hdmi_sii902xA.o siHdmiTx_902x_TPI.o	#zxr
 
 EXTRA_CFLAGS += -Wno-date-time  
 

@@ -21,7 +21,7 @@
 #include <linux/err.h>
 #include <linux/i2c.h>
 #include <linux/kernel.h>
-#include <mach/hardware.h>
+//#include <mach/hardware.h>
 
 
 #include "siHdmiTx_902x_TPI.h"
@@ -60,7 +60,7 @@ struct i2c_client *siiEDID = NULL;
 struct i2c_client *siiSegEDID = NULL;
 struct i2c_client *siiHDCP = NULL;
 
-static struct mxc_lcd_platform_data *Sii902xA_plat_data;
+//static struct mxc_lcd_platform_data *Sii902xA_plat_data;  //zxr
 
 
 //------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ byte I2CReadBlock( struct i2c_client *client, byte RegAddr, byte NBytes, byte * 
 byte I2CReadBlock( struct i2c_client *client, byte RegAddr, byte NBytes, byte * Data )
 {
 	int ret;
-	unsigned long start;
+	//unsigned long start;  //zxr 
 	struct i2c_msg request[] = {
 		{ .addr  = client->addr,
 		  .len   = sizeof(RegAddr),
@@ -314,9 +314,11 @@ void TxHW_Reset (void)
 {
 	TPI_TRACE_PRINT((">>TxHW_Reset()\n"));
 	
+    /* zxr
 	Sii902xA_plat_data = sii902xA->dev.platform_data;
 			if (Sii902xA_plat_data->reset)
 				Sii902xA_plat_data->reset();
+                */
 /*
 	siHdmiTx_HwResetPin = LOW;
 	DelayMS(TX_HW_RESET_PERIOD);
@@ -902,7 +904,7 @@ byte Parse861ShortDescriptors (byte *Data)
     byte VSDB_BaseOffset = 0;
 
     byte V_DescriptorIndex = 0;  // static to support more than one extension
-    byte A_DescriptorIndex = 0;  // static to support more than one extension
+    byte A_DescriptorIndex = 0;  // static to support more than one extension 
 
     byte TagCode;
 
@@ -1106,8 +1108,8 @@ byte Parse861Extensions (byte NumOfExtensions)
 
     byte ErrCode;
 
-    byte V_DescriptorIndex = 0;
-    byte A_DescriptorIndex = 0;
+    //byte V_DescriptorIndex = 0; //zxr
+    //byte A_DescriptorIndex = 0; //zxr
 
     byte Segment = 0;
     byte Block = 0;
@@ -1257,6 +1259,7 @@ byte DoEdidRead (void)
 
 		g_edid.edidDataValid = TRUE;
 	}
+    return 0 ;//zxr
 }
 
 #endif
