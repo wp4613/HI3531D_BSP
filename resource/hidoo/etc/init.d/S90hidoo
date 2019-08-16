@@ -21,4 +21,4 @@ cd /usr/H9-MVR/bin/
 
 ./io_cfg.sh 15 1 out 0  #(sil9136 rst)
 ./io_cfg.sh 15 1 out 1
-./load9136.sh /usr/H9-MVR/configs/sil9136.reg
+./load9136.sh /usr/H9-MVR/configs/sil9136.reg &
