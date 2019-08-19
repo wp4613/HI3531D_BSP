@@ -7,9 +7,10 @@ if [ ! -d my_software_set ];then
     fi
 fi
 pushd my_software_set
-export ROOTFS=${TOP_DIRECTOR}/build/out/rootfs
+if [ "x$ROOTFS" == "x" ];then
+    ROOTFS=${TOP_DIRECTOR}/build/out/rootfs
+fi
 ./build.sh $1
-rm ${TOP_DIRECTOR}/build/out/rootfs/include/* -rf 2> /dev/null
 popd
 
 popd

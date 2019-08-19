@@ -31,7 +31,7 @@ cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/lib/* ${TOP_DIRECTOR}/build/out/rootfs/lib/ -rfd
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/ko ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${TOP_DIRECTOR}/build/out/rootfs/bin/
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${TOP_DIRECTOR}/build/out/rootfs/bin/
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${TOP_DIRECTOR}/build/out/rootfs/bin/ -rfd
 
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
 

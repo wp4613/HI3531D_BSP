@@ -21,6 +21,15 @@
 6. 构建ubi镜像
     ./build.sh ubi
 
+预监卡:
+    resource/nova   --nova bsp
+    resource/hidoo/etc/init.d/S91mvr_init     --hidoo业务启动脚本
+    
+    resource/hidoo	--hidoo业务
+    resource/hidoo/etc/init.d/S90mvr-run     --hidoo业务启动脚本
+    resource/hidoo/usr/H9-MVR/bin/              --hidoo可执行文件目录
+    resource/hidoo/usr/H9-MVR/configs/              --hidoo配置目录
+
 
 
 注意:
@@ -35,9 +44,12 @@
     ./build.sh clean
 
 uboot 环境变量:
-    nand启动
+    nand ubi启动
         setenv bootcmd 'nand read 0x42000000 0x100000 0x400000;bootm 0x42000000'
         setenv bootargs 'mem=512M console=ttyAMA0,115200 ip=192.168.10.75::192.168.10.1:255.255.255.0  ubi.mtd=2 root=ubi0:ubifs rootflags=sync rootfstype=ubifs rw mtdparts=hinand:1M(boot),4M(kernel),-(rootfs)'
+    nand yaffs2启动
+	setenv bootargs 'mem=64M console=ttyAMA0,115200 ip=${ipaddr}::${gw}:${netmask} root=/dev/mtdblock2 rw rootfstype=yaffs2 mtdparts=hinand:1M(boot),4M(kernel),-(rootfs)'
+	setenv bootcmd 'nand read 0x42000000 0x100000 0x400000;bootm 0x42000000'
 
     nfs启动:
         setenv bootargs 512M console=ttyAMA0,115200 root=/dev/nfs rw nfsroot=192.168.10.167:/home/linkpi/work/3531D/fs,proto=tcp ip=192.168.10.75 init=/linuxrc mtdparts=hinand:1M(boot),4M(kernel),250M(rootfs)
