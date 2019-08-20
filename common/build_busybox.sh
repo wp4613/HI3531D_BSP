@@ -37,7 +37,7 @@ cp ${TOP_DIRECTOR}/resource/hidoo/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
 
 chmod +x ${TOP_DIRECTOR}/build/out/rootfs/ko/load3531d
 mkdir ${TOP_DIRECTOR}/build/out/rootfs/var/empty
-cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/rootfs/sbin/
+#cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/rootfs/sbin/
 
 #busybox 文件系统暂时挂载无反应
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/etc ${TOP_DIRECTOR}/build/out/rootfs/ -rfd

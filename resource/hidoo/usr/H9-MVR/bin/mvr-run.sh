@@ -1,4 +1,6 @@
 #!/bin/sh
+ulimit -d unlimited
+ulimit -c unlimited
 grep "^sshd" /etc/passwd >& /dev/null
 if [ $? -ne 0 ]
 then
@@ -21,6 +23,24 @@ chown root /var/empty
 /sbin/sshd
 
 cd /usr/H9-MVR/bin/
+./io_cfg.sh 11 4 out 1   #fpga program io
+./io_cfg.sh 11 6 out 1 #(6208-1 rst)
+./io_cfg.sh 11 7 out 1 #(6208-2 rst)
+
+if [ ! -f S90mvr_init ];then
+./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
+./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4_200MHz_Y3Y5Y6Y7_162.5MHz.ini
+else
+./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4_200MHz_Y3Y5Y6Y7_162.5MHz.ini cdcm6208-0 
+fi
+if [ ! -f S90mvr_init ];then
+./i2c_test -a 0x70  -w 6    # i2c 选择 9136/6208-2
+./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini
+else
+./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini cdcm6208-1 
+fi
+
+
 ./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
 ./io_cfg.sh 15 1 out 0  #(sil9136 rst)
 ./io_cfg.sh 15 1 out 1
