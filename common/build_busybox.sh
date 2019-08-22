@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ "x$ROOTFS" == "x" ];then
+    export ROOTFS=${TOP_DIRECTOR}/build/out/rootfs
+fi
 pushd ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/opensource/busybox/busybox-1.20.2/
 
 
@@ -18,25 +21,24 @@ pushd ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/opensource/busybox/busybox-1.20
 #cp ${SYSROOT}/lib/* ./lib/ -rfd
 #popd
 
-if [  -d ${TOP_DIRECTOR}/build/out/rootfs ];then
-    rm ${TOP_DIRECTOR}/build/out/rootfs -rf
+if [  -d ${ROOTFS} ];then
+    rm ${ROOTFS} -rf
 fi
-mkdir ${TOP_DIRECTOR}/build/out/rootfs 
+mkdir ${ROOTFS}
 
 if [ ! -d ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/ ];then
     tar xvf ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc.tgz -C ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/
 fi
 
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/lib/* ${TOP_DIRECTOR}/build/out/rootfs/lib/ -rfd
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/ko ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${TOP_DIRECTOR}/build/out/rootfs/bin/
-cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${TOP_DIRECTOR}/build/out/rootfs/bin/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${ROOTFS}/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/lib/* ${ROOTFS}/lib/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/ko ${ROOTFS}/ -rfd
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${ROOTFS}/bin/
+cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${ROOTFS}/bin/ -rfd
 
-cp ${TOP_DIRECTOR}/resource/hidoo/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
 
-chmod +x ${TOP_DIRECTOR}/build/out/rootfs/ko/load3531d
-mkdir ${TOP_DIRECTOR}/build/out/rootfs/var/empty
+chmod +x ${ROOTFS}/ko/load3531d
+mkdir ${ROOTFS}/var/empty
 #cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/rootfs/sbin/
 
 #busybox 文件系统暂时挂载无反应

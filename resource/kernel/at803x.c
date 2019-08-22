@@ -216,7 +216,7 @@ static int at803x_config_init(struct phy_device *phydev)
 	if (ret < 0)
 		return ret;
 									//zxr
-	if (phydev->interface == PHY_INTERFACE_MODE_RGMII_TXID || phydev->interface == PHY_INTERFACE_MODE_RGMII) {
+	if (phydev->interface == PHY_INTERFACE_MODE_RGMII_TXID || phydev->drv->phy_id == ATH8035_PHY_ID  ) {
 		ret = phy_write(phydev, AT803X_DEBUG_ADDR,
 				AT803X_DEBUG_SYSTEM_MODE_CTRL);
 		if (ret)

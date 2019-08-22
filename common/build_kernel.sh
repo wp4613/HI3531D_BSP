@@ -32,7 +32,7 @@ if [ $? != 0 ];then
     exit 1
 fi
 make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- ${KERNEL_CONFIG}
-make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- -j uImage
+make ARCH=arm CROSS_COMPILE=${CROSS_COMPILER_PREFIX}- -j 4 uImage
 cp arch/arm/boot/uImage ${TOP_DIRECTOR}/build/out/
 
 

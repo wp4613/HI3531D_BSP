@@ -18,8 +18,13 @@
 6. 构建第三方组件
     ./build.sh compoment
     ./build.sh compoment install #安装到文件系统
-6. 构建ubi镜像
+7. 构建ubi镜像
     ./build.sh ubi
+
+补充:
+    ./build.sh hisi #构建hisi 通用文件系统
+    ./build.sh hidoo    #构建北京自研预监卡文件系统
+    ./build.sh mvr    #构建nova bsp+北京业务预监卡文件系统
 
 预监卡:
     resource/nova   --nova bsp
