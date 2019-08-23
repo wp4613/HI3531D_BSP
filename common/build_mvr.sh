@@ -29,3 +29,4 @@ mkdir ${ROOTFS}/var/empty
 
 ./build.sh compoment install
 ./build.sh yaffs2
+
