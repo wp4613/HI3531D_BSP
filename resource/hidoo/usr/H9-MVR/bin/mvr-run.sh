@@ -41,9 +41,6 @@ else
 ./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini cdcm6208-1 
 fi
 
-if [ -f /etc/init.d/S90mvr_init ];then
-    fpga_load 0 /usr/H9-MVR/configs/mvr_fpga.bin
-fi
 
 if [ ! -f /etc/init.d/S90mvr_init ];then
     ./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
@@ -51,5 +48,14 @@ if [ ! -f /etc/init.d/S90mvr_init ];then
     ./io_cfg.sh 15 1 out 1
     ./load9136.sh /usr/H9-MVR/configs/sil9136.reg &
 fi
+if [ -f /etc/init.d/S90mvr_init ];then
+    fpga_load 0 /usr/H9-MVR/configs/mvr_fpga.bin 
+fi
+
+if [ -f /driver/hi_sil9136.ko ];then
+    insmod /driver/hi_sil9136.ko
+fi
+
+/usr/H9-MVR/bin/guardian.sh &
 
 
