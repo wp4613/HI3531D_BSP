@@ -1,0 +1,38 @@
+#!/bin/sh
+
+ipaddr=192.168.0.12
+bootp=
+gateway=192.168.0.1
+netmask=255.255.255.0
+hostname=
+netdev=eth1
+autoconf=
+
+echo "      IP: $ipaddr"
+echo "   BOOTP: $bootp"
+echo " GATEWAY: $gateway"
+echo " NETMASK: $netmask"
+echo "HOSTNAME: $hostname"
+echo "  NETDEV: $netdev"
+echo "AUTOCONF: $autoconf"
+
+if [ x$ipaddr == x- ] ; then
+	# use DHCP
+	:
+else
+	cmd="ifconfig $netdev $ipaddr"
+	[ x$netmask != x- ] && cmd="$cmd netmask $netmask"
+	eval $cmd
+    ipaddr1=$(echo $ipaddr | cut -d "." -f1)
+    ipaddr2=$(echo $ipaddr | cut -d "." -f2)
+    ipaddr3=$(echo $ipaddr | cut -d "." -f3)
+    ipaddr4=$(echo $ipaddr | cut -d "." -f4)
+    netmask1=$(echo $netmask | cut -d "." -f1)
+    netmask2=$(echo $netmask | cut -d "." -f2)
+    netmask3=$(echo $netmask | cut -d "." -f3)
+    netmask4=$(echo $netmask | cut -d "." -f4)
+    netaddr=$(($ipaddr1&$netmask1)).$(($ipaddr2&$netmask2)).$(($ipaddr3&$netmask3)).$(($ipaddr4&$netmask4))
+	[ x$gateway != x- ] && route add –net $netaddr netmask netmask $netdev
+
+fi
+

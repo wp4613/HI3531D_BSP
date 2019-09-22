@@ -1,11 +1,11 @@
 #!/bin/sh
 
-ipaddr=
+ipaddr=192.168.0.11
 bootp=
-gateway=
-netmask=
+gateway=192.168.0.1
+netmask=255.255.255.0
 hostname=
-netdev=
+netdev=eth0
 autoconf=
 
 if [ "x$ipaddr" == "x"  ];then # >>>>>
@@ -53,6 +53,16 @@ else
 	[ x$netmask != x- ] && cmd="$cmd netmask $netmask"
 	eval $cmd
 	[ x$gateway != x- ] && route add default gw $gateway
+
+    ipaddr1=$(echo $ipaddr | cut -d "." -f1)
+    ipaddr2=$(echo $ipaddr | cut -d "." -f2)
+    ipaddr3=$(echo $ipaddr | cut -d "." -f3)
+    ipaddr4=$(echo $ipaddr | cut -d "." -f4)
+    netmask1=$(echo $netmask | cut -d "." -f1)
+    netmask2=$(echo $netmask | cut -d "." -f2)
+    netmask3=$(echo $netmask | cut -d "." -f3)
+    netmask4=$(echo $netmask | cut -d "." -f4)
+	[ x$gateway != x- ] && route add –net $netaddr netmask netmask $netdev
 fi
 
 ifconfig lo 127.0.0.1

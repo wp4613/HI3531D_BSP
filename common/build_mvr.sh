@@ -20,6 +20,8 @@ cp ${TOP_DIRECTOR}/resource/nova/rootfs/* ${ROOTFS}/ -rfd
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${ROOTFS}/bin/
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${ROOTFS}/bin/ -rfd
 
+rm ${ROOTFS}/etc/init.d/S80network
+
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 
 #chmod +x ${TOP_DIRECTOR}/build/out/${ROOTFS}/ko/load3531d

@@ -20,6 +20,7 @@ if [ -d "/ko/extdrv/sil9024_ex.ko" ];then
 fi
 
 chown root /var/empty
+chmod 644 /var/empty/
 /sbin/sshd
 
 
@@ -55,7 +56,7 @@ fi
 if [ -f /driver/hi_sil9136.ko ];then
     insmod /driver/hi_sil9136.ko
 fi
-
-/usr/H9-MVR/bin/guardian.sh &
+/usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
+/usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &
 
 
