@@ -1,6 +1,25 @@
 #!/bin/sh
 ulimit -d unlimited
 ulimit -c unlimited
+
+if [ -f /usr/H9-MVR/configs/upgrade.tar ];then
+    cd /usr/H9-MVR/configs/
+    tar xvf upgrade.tar
+    if [ -d upgrade ];then
+        if [ $? == 0 ];then
+            cd upgrade
+            chmod +x ./upgrade.sh
+            ./upgrade.sh
+            cd ../
+            upgrade_done=true
+        fi
+        rm upgrade -rf
+    fi
+    if [ $upgrade_done ];then
+        rm upgrade.tar -rf
+    fi
+fi
+
 grep "^sshd" /etc/passwd >& /dev/null
 if [ $? -ne 0 ]
 then
@@ -58,5 +77,6 @@ if [ -f /driver/hi_sil9136.ko ];then
 fi
 /usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
 /usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &
+
 
 

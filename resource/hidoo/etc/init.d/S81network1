@@ -7,6 +7,7 @@ netmask=255.255.255.0
 hostname=
 netdev=eth0
 autoconf=
+netmode=0   # du li mo shi
 
 if [ "x$ipaddr" == "x"  ];then # >>>>>
 for ipinfo in `cat /proc/cmdline`
@@ -62,7 +63,9 @@ else
     netmask2=$(echo $netmask | cut -d "." -f2)
     netmask3=$(echo $netmask | cut -d "." -f3)
     netmask4=$(echo $netmask | cut -d "." -f4)
-	[ x$gateway != x- ] && route add –net $netaddr netmask netmask $netdev
+    netaddr=$(($ipaddr1&$netmask1)).$(($ipaddr2&$netmask2)).$(($ipaddr3&$netmask3)).$(($ipaddr4&$netmask4))
+    echo "route add net $netaddr netmask $netmask $netdev"
+	[ x$gateway != x- ] && route add -net $netaddr netmask $netmask $netdev
 fi
 
 ifconfig lo 127.0.0.1

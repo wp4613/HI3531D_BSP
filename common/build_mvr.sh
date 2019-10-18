@@ -32,3 +32,8 @@ mkdir ${ROOTFS}/var/empty
 ./build.sh compoment install
 ./build.sh yaffs2
 
+pushd ${TOP_DIRECTOR}/build/out/
+tar cvf rootfs_mvr.tar rootfs_mvr
+popd
+
+./build.sh mvr_upgrade
