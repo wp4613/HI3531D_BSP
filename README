@@ -1,6 +1,9 @@
 该脚本会自动把/bin/sh软链接指向/bin/bash        （ubuntu中 默认指向/bin/dash）
 
+
+
 1.  同步工程
+    (把arm-hisiv500-linux.tgz  Hi3531D_SDK_V1.0.3.0.tgz放在SDK_package目录)
     ./build.sh init
 2.  初步构建
     ./build.sh make
