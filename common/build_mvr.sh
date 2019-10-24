@@ -23,13 +23,21 @@ cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* 
 rm ${ROOTFS}/etc/init.d/S80network
 
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
+cp ${TOP_DIRECTOR}/resource/hidoo_third_soft/* ${ROOTFS}/ -rfd
+
+pushd tools/ver_tool/
+./create_ver.sh
+cp ./mcu_version.bin ./fpga_version.bin
+cp ./mcu_version.bin ./version.bin
+cp ./*version.bin ${ROOTFS}/usr/H9-MVR/configs/
+popd
 
 #chmod +x ${TOP_DIRECTOR}/build/out/${ROOTFS}/ko/load3531d
-mkdir ${ROOTFS}/var/empty
+#mkdir ${ROOTFS}/var/empty
 #cp ${TOP_DIRECTOR}/resource/init-env.sh ${TOP_DIRECTOR}/build/out/${ROOTFS}/sbin/
 
 
-./build.sh compoment install
+#./build.sh compoment install
 ./build.sh yaffs2
 
 pushd ${TOP_DIRECTOR}/build/out/

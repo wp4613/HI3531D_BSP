@@ -17,6 +17,7 @@ echo "#!/bin/sh" > ${ROOTFS}/bin/hellow.sh
 echo "echo hellow" > ${ROOTFS}/bin/hellow.sh
 chmod +x ${ROOTFS}/bin/hellow.sh
 
+chmod +x ${TOP_DIRECTOR}/resource/upgrade.sh
 cp ${TOP_DIRECTOR}/resource/upgrade.sh ${ROOTFS}/ -rfd
 pushd ${TOP_DIRECTOR}/build/out/
 tar cvf upgrade.tar upgrade
