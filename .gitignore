@@ -1,3 +1,6 @@
+resource/hidoo_third_soft
+tools/ver_tool/*.bin
+tools/ver_tool/ver_tool
 build/*
 Hi3531D_SDK_V1.0.3.0.tgz
 arm-hisiv500-linux.tgz
