@@ -7,11 +7,11 @@ set_path_before()
 	[ -d $1 ] && PATH="$1:$PATH"
 }
 
-PATH="/usr/bin:/usr/sbin:/bin:/sbin"
-set_path_before /usr/local/sbin
-set_path_before /usr/local/bin
+#PATH="/usr/bin:/usr/sbin:/bin:/sbin:/usr/nova/bin"
+#set_path_before /usr/local/sbin
+#set_path_before /usr/local/bin
 
-LD_LIBRARY_PATH="/usr/local/lib:/usr/lib"
+#LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/usr/nova/lib"
 
 export PATH
 export LD_LIBRARY_PATH

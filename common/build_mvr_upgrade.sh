@@ -8,7 +8,7 @@ mkdir ${ROOTFS}
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 rm ${ROOTFS}/etc/init.d/S81network1
 rm ${ROOTFS}/etc/init.d/S82network2
-rm ${ROOTFS}/usr/H9-MVR/configs/mvr_fpga.bin
+rm ${ROOTFS}/usr/nova/etc/fpga/mvr_fpga.bin
 
 #mkdir ${ROOTFS}/usr/H9-MVR/configs/ -p
 #mkdir ${ROOTFS}/bin/ -p

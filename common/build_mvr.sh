@@ -13,10 +13,12 @@ fi
 
 
 cp ${TOP_DIRECTOR}/resource/nova/rootfs/* ${ROOTFS}/ -rfd
+rm ${ROOTFS}/usr/nova/bin/himm
 
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/lib/* ${TOP_DIRECTOR}/build/out/rootfs/lib/ -rfd
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/mpp/ko ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
+
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${ROOTFS}/bin/
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${ROOTFS}/bin/ -rfd
 
@@ -26,7 +28,9 @@ cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 cp ${TOP_DIRECTOR}/resource/hidoo_third_soft/* ${ROOTFS}/ -rfd
 
 pushd tools/ver_tool/
-./create_ver.sh
+VER1_V=$(cat ${TOP_DIRECTOR}/resource/hidoo/usr/H9-MVR/configs/version.txt |grep VER1|cut -d '=' -f2)
+VER2_V=$(cat ${TOP_DIRECTOR}/resource/hidoo/usr/H9-MVR/configs/version.txt |grep VER2|cut -d '=' -f2)
+VER1=$VER1_V VER2=$VER2_V ./create_ver.sh
 cp ./mcu_version.bin ./fpga_version.bin
 cp ./mcu_version.bin ./version.bin
 cp ./*version.bin ${ROOTFS}/usr/H9-MVR/configs/
