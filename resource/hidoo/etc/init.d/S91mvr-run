@@ -108,10 +108,12 @@ ID6=$(cat /sys/class/gpio/gpio6/value)
 ID7=$(cat /sys/class/gpio/gpio7/value)
 
 SLOT_ID=$(( $ID7<<7|$ID6<<6 | $ID5<<5 | $ID4<<4 | $ID3<<3 | $ID2<<2 | $ID1<<1 | $ID0))
-if [ $SLOT_ID == 201 ];then
+if [ $SLOT_ID == 201 -o $SLOT_ID == 10 ];then
     SLOT_ID=21
 fi
 echo $SLOT_ID > /dev/slot_id
+
+/usr/H9-MVR/bin/spi_master -R 0x108 -w "$(printf "%02x" $(($SLOT_ID-1)))"
 
 /usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
 /usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &
