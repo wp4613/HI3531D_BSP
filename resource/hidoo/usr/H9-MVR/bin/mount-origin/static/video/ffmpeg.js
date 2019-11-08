@@ -87,6 +87,7 @@ function VideoModule(ip,port,numRow,numCol)
     this._img.onload = function(){
 	    this.Idle = true
 	    this.Valid = true
+        URL.revokeObjectURL(this.src);
         if(this.width == 1920){
             this.vm.__drawCanvasOptimize4img()
         }
@@ -101,37 +102,31 @@ function VideoModule(ip,port,numRow,numCol)
     decodeWorker.vm = this
 	decodeWorker.onmessage = function (event){
 		if(event.data.type == 2){
-			jpgData = event.data.frame.slice(4,event.data.frame.length)
-			var reader = new FileReader();
-            reader.vm = this.vm
-			reader.onload = function(evt){
-				if(evt.target.readyState == FileReader.DONE){
-					var url = evt.target.result;
-                    if(this.vm._img.Idle == true){
-                        this.vm._img.src = url
-                        this.vm._img.Idle = false
-                    }
-				}
-			}
-			reader.readAsDataURL(new Blob([jpgData]));
+			var jpgData = event.data.frame.slice(4,event.data.frame.length)
+            var url = URL.createObjectURL(new Blob([jpgData]));
+            if(this.vm._img.Idle == true){
+                this.vm._img.src = url;
+                this.vm._img.Idle = false;
+            }
+            url=null;
+            jpgData = null;
 		}
+        event.data.frame=null;
+        event.data.type=null;
+        event.data=null;
+        event=null;
 	}
 	var wsUrl = 'ws://'+this._videoIP+':'+this._videoPort;
-	(new WebSocket(wsUrl)).onmessage = function(evt){
-            var reader = new FileReader();
-            reader.onload = function(evt)
-            {
-                if(  evt.target.readyState ==FileReader.DONE)
-                {
-                    var u8Res = new Uint8Array(evt.target.result)
-                    var data = {type:1,h264Buff:u8Res}
-                    decodeWorker.postMessage(data)
-                    data = null
-                }
-				reader = null
-
-            }
-			reader.readAsArrayBuffer(evt.data)
+    var ws = new WebSocket(wsUrl);
+    ws.binaryType="arraybuffer"
+	ws.onmessage = function(evt){
+        var u8Res = new Uint8Array(evt.data);
+        var data = {type:1,h264Buff:u8Res};
+        decodeWorker.postMessage(data);
+        data=null;
+        u8Res=null;
+        evt.data=null;
+        evt=null;
 	}
 }
 

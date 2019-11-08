@@ -36,7 +36,7 @@ insmod hi_comif.ko
 insmod hi_fpga_cfg.ko
 insmod hi_sysinit.ko
 insmod hi_i2cdev.ko
-insmod hi_sil9136.ko
+#insmod hi_sil9136.ko
 insmod hi_spidev.ko
 cd -
 

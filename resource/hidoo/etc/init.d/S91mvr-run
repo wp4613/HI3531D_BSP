@@ -76,9 +76,9 @@ if [ ! -f /etc/init.d/S90init-task.sh ];then
     ./load9136.sh /usr/H9-MVR/configs/sil9136.reg &
 fi
 
-#if [ -f /driver/hi_sil9136.ko ];then
-#    insmod /driver/hi_sil9136.ko
-#fi
+if [ -f /usr/nova/driver/hi_sil9136.ko ];then                                         
+    insmod /usr/nova/driver/hi_sil9136.ko                                             
+fi
 
 echo 0 > /sys/class/gpio/export
 echo 1 > /sys/class/gpio/export
@@ -113,7 +113,9 @@ if [ $SLOT_ID == 201 -o $SLOT_ID == 10 ];then
 fi
 echo $SLOT_ID > /dev/slot_id
 
-/usr/H9-MVR/bin/spi_master -R 0x108 -w "$(printf "%02x" $(($SLOT_ID-1)))"
+echo 88 > /sys/class/gpio/export
+echo in > /sys/class/gpio/gpio88/direction
+
 
 /usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
 /usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &

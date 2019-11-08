@@ -128,6 +128,10 @@ onmessage = function (event){
             frame =_zx_getFrame(cxt);
         }
     }
+    event.data.type=null;
+    event.data.h264Buff=null;
+    event.data=null;
+    evemt=null;
 
 }
 
