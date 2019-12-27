@@ -3,7 +3,7 @@ if [ "x$VER1" == "x" ];then
     VER1=1.0.0.0
 fi
 if [ "x$DEV" == "x" ];then
-    DEV=H_AUX_9U
+    DEV=H_MVR_9U
 fi
 if [ "x$VER2" == "x" ];then
     VER2=S1.T4.X1

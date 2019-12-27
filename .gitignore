@@ -1,3 +1,6 @@
+tmp_rootfs
+resource/nova/rootfs_bk
+resource/nova/rootfs.tgz
 resource/hidoo_third_soft
 tools/ver_tool/*.bin
 tools/ver_tool/ver_tool
@@ -6,3 +9,4 @@ Hi3531D_SDK_V1.0.3.0.tgz
 arm-hisiv500-linux.tgz
 arm-hisiv500-linux
 SDK_package/*
+

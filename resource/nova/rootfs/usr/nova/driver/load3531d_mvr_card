@@ -117,7 +117,7 @@ insert_ko()
 	insmod hi3531d_venc.ko
 	insmod hi3531d_chnl.ko
 	insmod hi3531d_vedu.ko
-	insmod hi3531d_h264e.ko
+	insmod hi3531d_h264e.ko H264eOneStreamBuffer=1
 	insmod hi3531d_h265e.ko
 	insmod hi3531d_jpege.ko
 	insmod hi3531d_vda.ko

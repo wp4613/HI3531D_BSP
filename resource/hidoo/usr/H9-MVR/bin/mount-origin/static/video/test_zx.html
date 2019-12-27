@@ -32,12 +32,12 @@
         }
         vt.appendChild(tr)
     }
-        	var vm1 = new VideoModule(document.domain,8081,8,8)
+        	var vm1 = new VideoModule(document.domain,8081,8,8,1280,720)
 		    for(var i = 0;i < 64;i++)
 		    {
 			    vm1.registerCanvasSimple(document.getElementById("myCanvas"+(i+1)),i)
 		    }
-		var vm2 = new VideoModule(document.domain,8082,1,1)
+		var vm2 = new VideoModule(document.domain,8082,1,1,1280,720)
 		vm2.registerCanvasSimple(document.getElementById("myCanvas65"),0)
 
 </script>

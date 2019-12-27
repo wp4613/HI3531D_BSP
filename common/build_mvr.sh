@@ -2,7 +2,7 @@
 if [ $# -lt 3 ];then                                               
     echo not version                                          
     echo Useage:                                                                                                                                       
-    echo '  ./build.sh mvr "H_AUX_9U 1.0.0.0 S2.T1" '
+    echo '  ./build.sh mvr "H_MVR_9U 1.0.0.0 S3.T1" '
     exit 1                                                          
 fi
 DEV_V=$1
@@ -21,8 +21,8 @@ if [ ! -d ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/ ];then
 fi
 
 
-
 cp ${TOP_DIRECTOR}/resource/nova/rootfs/* ${ROOTFS}/ -rfd
+
 rm ${ROOTFS}/usr/nova/bin/himm
 
 #cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/* ${TOP_DIRECTOR}/build/out/rootfs/ -rfd
@@ -32,14 +32,15 @@ rm ${ROOTFS}/usr/nova/bin/himm
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/gdb/bin/bin/* ${ROOTFS}/bin/
 cp ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/tools/board/reg-tools-1.0.0/bin/* ${ROOTFS}/bin/ -rfd
 
-rm ${ROOTFS}/etc/init.d/S80network
+if [ -f ${ROOTFS}/etc/init.d/S80network ];then
+    rm ${ROOTFS}/etc/init.d/S80network
+fi
 
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 cp ${TOP_DIRECTOR}/resource/hidoo_third_soft/* ${ROOTFS}/ -rfd
+echo MCU:$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/H9-MVR/configs/version.txt
 
 pushd tools/ver_tool/
-#VER1_V=$(cat ${TOP_DIRECTOR}/resource/hidoo/usr/H9-MVR/configs/version.txt |grep VER1|cut -d '=' -f2)
-#VER2_V=$(cat ${TOP_DIRECTOR}/resource/hidoo/usr/H9-MVR/configs/version.txt |grep VER2|cut -d '=' -f2)
 DEV=$DEV_V VER1=$VER1_V VER2=$VER2_V ./create_ver.sh
 cp ./mcu_version.bin ./fpga_version.bin
 cp ./mcu_version.bin ./version.bin

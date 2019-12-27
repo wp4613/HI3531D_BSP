@@ -1,4 +1,4 @@
-function VideoModule(ip,port,numRow,numCol)
+function VideoModule(ip,port,numRow,numCol,video_width,video_height)
 {
 	// 为了尽可能保证成功率:如果ip为空或还回地址则改用document.domain获取的地址
 	if (null == ip || ip == 'undefined' || ip == undefined || "" == ip || "0.0.0.0" == ip || ip.indexOf('127.') == 0) {
@@ -12,8 +12,8 @@ function VideoModule(ip,port,numRow,numCol)
 	} else {
 		this._videoPort = port;
 	}
-    this._frame_w = 1920;
-    this._frame_h = 1080;
+    this._frame_w = video_width;
+    this._frame_h = video_height;
     this._num_w = numCol;
     this._num_h = numRow;
 
@@ -88,9 +88,9 @@ function VideoModule(ip,port,numRow,numCol)
 	    this.Idle = true
 	    this.Valid = true
         URL.revokeObjectURL(this.src);
-        if(this.width == 1920){
+//        if(this.width == 1920){
             this.vm.__drawCanvasOptimize4img()
-        }
+//        }
     }
 
 	this._canvasBuffer =  document.createElement("canvas");
@@ -116,6 +116,8 @@ function VideoModule(ip,port,numRow,numCol)
         event.data=null;
         event=null;
 	}
+    var data = {type:3,width:this._frame_w,height:this._frame_h}
+    decodeWorker.postMessage(data)
 	var wsUrl = 'ws://'+this._videoIP+':'+this._videoPort;
     var ws = new WebSocket(wsUrl);
     ws.binaryType="arraybuffer"

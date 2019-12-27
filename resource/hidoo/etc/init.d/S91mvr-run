@@ -1,7 +1,7 @@
 #!/bin/sh
 ulimit -d unlimited
 ulimit -c unlimited
-
+mount tmpfs -t tmpfs /tmp
 export PATH="/usr/nova/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/usr/nova/lib:$LD_LIBRARY_PATH"
 
@@ -22,6 +22,13 @@ if [ -f /usr/H9-MVR/configs/upgrade.tar ];then
         rm upgrade.tar -rf
     fi
 fi
+sync
+
+if [ -f /usr/H9-MVR/configs/mvr_fpga.bin ];then
+    /usr/H9-MVR/bin/load_fpga_img.sh /usr/H9-MVR/configs/mvr_fpga.bin
+    mv /usr/H9-MVR/configs/mvr_fpga.bin /usr/nova/etc/fpga/
+fi
+sync
 
 grep "^sshd" /etc/passwd >& /dev/null
 if [ $? -ne 0 ]
@@ -44,16 +51,14 @@ fi
 chown root /var/empty
 chmod 644 /var/empty/
 /sbin/sshd
-
-while [ $(cat /proc/fpga_cfg0/cfg_result) != 0 ]
-do
-    sleep 0.1
-done
+sync
+#new rootfs has not /proc/fpga_cfg0/cfg_result 
+#while [ $(cat /proc/fpga_cfg0/cfg_result) != 0 ]   
+#do
+#    sleep 0.1
+#done
 
 cd /usr/H9-MVR/bin/
-#./io_cfg.sh 11 4 out 1   #fpga program io
-#./io_cfg.sh 11 6 out 1 #(6208-1 rst)
-#./io_cfg.sh 11 7 out 1 #(6208-2 rst)
 
 if [ ! -f /etc/init.d/S90init-task.sh ];then
 ./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
@@ -68,17 +73,19 @@ else
 ./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini cdcm6208-1 
 fi
 
+#wait 6208-0(1 seconds) 6208-1(3 seconds) latches clock then reload fpga
+sleep 3 
+/usr/nova/bin/enable_arm_access.sh
+/usr/nova/bin/enable_fpga_cfg.sh
 
-if [ ! -f /etc/init.d/S90init-task.sh ];then
-    ./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
-    ./io_cfg.sh 15 1 out 0  #(sil9136 rst)
-    ./io_cfg.sh 15 1 out 1
-    ./load9136.sh /usr/H9-MVR/configs/sil9136.reg &
-fi
+while [ $(cat /sys/class/gpio/gpio93/value) != 1 ]
+do
+    sleep 0.1  
+done
+# wait fpga loaded then reconnect 9136(hdmi)
+echo 2 > /sys/devices/platform/i2c-gpio.0/i2c-0/i2c-3/3-0039/sii9136_reconnect/sii9136_reconnect_sel
 
-if [ -f /usr/nova/driver/hi_sil9136.ko ];then                                         
-    insmod /usr/nova/driver/hi_sil9136.ko                                             
-fi
+ 
 
 echo 0 > /sys/class/gpio/export
 echo 1 > /sys/class/gpio/export
@@ -116,9 +123,9 @@ echo $SLOT_ID > /dev/slot_id
 echo 88 > /sys/class/gpio/export
 echo in > /sys/class/gpio/gpio88/direction
 
-
+#wait fpga init logic
+sleep 2
 /usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
 /usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &
-
 
 

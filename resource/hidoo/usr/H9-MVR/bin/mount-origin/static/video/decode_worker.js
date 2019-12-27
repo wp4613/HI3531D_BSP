@@ -3,83 +3,20 @@ importScripts('/static/video/libffmpeg.js');
 
 var cxt = null
 var start = false
-db = null
-function openDB (name,version) {
-            var version=version || 1;
-            var request=indexedDB.open(name,version);
-            request.onerror=function(e){
-                console.log(e.currentTarget.error.message);
-				openDB(name,version)
-			}
-			request.onsuccess=function(e){
-                db = e.target.result;
-            };
-}
-var dbUpdateMutex = 0
 var frameObjList = []
-function updateData(db,storeName,objStore){
-			frameObjList.push(objStore)
-			if(frameObjList.length < 1)
-				return
-			dbUpdateMutex++
-            var transaction=db.transaction(storeName,'readwrite');
-            var store=transaction.objectStore(storeName);
-			var request = store.add(frameObjList);
-			frameObjList = []
-            request.onsuccess=function(e){ 
-					dbUpdateMutex--
-            };
-			request.onerror = function(e){
-					dbUpdateMutex--
-			}
-		/****
-            var request=store.get(objStore.id); 
-            request.onsuccess=function(e){ 
-                var frameObj=e.target.result; 
-				if(frameObj.data === null)
-				{
-					var req = store.put(objStore);
-					req.onsuccess = function(e)
-					{
-							dbUpdateMutex--
-					}
-					req.onerror = function(e)
-					{
-							dbUpdateMutex--
-					}
-				}
-				else
-				{
-					var req = store.put(objStore);
-					req.onsuccess = function(e)
-					{
-							dbUpdateMutex--
-					}
-						//dbUpdateMutex = false
-				}
-                //console.log(frameObj); 
-            };
-			request.onerror = function(e){
-					dbUpdateMutex--
-			}
-			***/
-}
-//openDB('frameDB',2)
+var w = 0;
+var h = 0;
 function waitWasmLoading()
 {
     console.log("timer ...")
-    //if(Module['asm']['_zx_createH264Decoder'] != undefined)
-    //if(Module['asm']['O'] != undefined)
-    //console.log(Module._zx_createH264Decoder)
-    if('_zx_createH264Decoder' in Module.asm)
+    if('_zx_createH264Decoder' in Module.asm && w != 0 && h != 0)
     {
 
-        console.log("timer stop")
-        cxt = Module._zx_createH264Decoder()
-        clearInterval(timerWasm)
-        setTimeout("start = true;",1000)
+        console.log("timer stop");
+        clearInterval(timerWasm);
+        setTimeout("start = true;",1000);
+        cxt = Module._zx_createH264Decoder(w,h)
         postMessage({type:1})
-        //startWork()
     }
 }
 var timerWasm = setInterval(waitWasmLoading,100)
@@ -96,11 +33,10 @@ function copyData(ptr,len)
         u8Buff[i] = Module._zx_getMemVal(ptr,i)
     return u8Buff
 }
-
 onmessage = function (event){
     if(event.data.type == 1) //recv h264
     {
-        if(start == false)
+        if(start == false || cxt == null)
             return
         var h264Buff = event.data.h264Buff
         var buffer = Module._malloc(h264Buff.length)
@@ -117,16 +53,16 @@ onmessage = function (event){
 			len += Module._zx_getMemVal(frame+3)<<24
             frameBuff = copyData2(frame,len+4)
             Module._free(frame)
-			if(dbUpdateMutex < 3 )
-			{
-				//updateData(db,'frameObj',{'id':0,data:frameBuff})
-				var data = {type:2,frame:frameBuff}
-				//postMessage(data,[data.frame.buffer])
-				postMessage(data)
-			}
-			//console.log("post frame...")
+           
+            var data = {type:2,frame:frameBuff}
+            postMessage(data)
             frame =_zx_getFrame(cxt);
         }
+    }
+    else if(event.data.type == 3)
+    {
+        w = event.data.width;
+        h = event.data.height;
     }
     event.data.type=null;
     event.data.h264Buff=null;
