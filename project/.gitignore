@@ -1,0 +1,16 @@
+*.o
+*.ox
+*.d
+*.user
+H9U_MVR_Card
+libwebsockets
+fs/*
+cscope*
+moc_*
+tags
+.qmake.stash
+H9U_MVR_Card.pro.user*
+Makefile
+spi_master/spi_master
+i2c_dev_test/
+test_video/
