@@ -20,6 +20,7 @@ if [ $? != 0 ];then
     sudo apt install gcc
 fi
 which g++
+sudo apt install libncurses5-dev
 if [ $? != 0 ];then
     sudo apt install g++
 fi
