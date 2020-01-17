@@ -1,4 +1,6 @@
 #!/bin/sh
-
+if [ ! -f /sbin/ip ];then
+    ln -s /bin/ip /sbin/ip
+fi
 /usr/Hseries/bin/setip /usr/Hseries/configs/net-eth0.cfg
 

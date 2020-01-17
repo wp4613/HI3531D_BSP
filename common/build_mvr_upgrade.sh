@@ -8,10 +8,6 @@ mkdir ${ROOTFS}
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 echo MCU:$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/Hseries/configs/version.txt
 
-rm ${ROOTFS}/etc/init.d/S81network
-rm ${ROOTFS}/etc/init.d/S82network
-rm ${ROOTFS}/usr/Hseries/configs/config.ini
-
 chmod +x ${TOP_DIRECTOR}/resource/upgrade.sh
 cp ${TOP_DIRECTOR}/resource/upgrade.sh ${ROOTFS}/ -rfd
 pushd ${TOP_DIRECTOR}/build/out/
