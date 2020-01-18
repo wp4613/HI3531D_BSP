@@ -1,6 +1,9 @@
 #!/bin/sh
 ulimit -d unlimited
 ulimit -c unlimited
+
+/usr/Hseries/bin/lock_sil9136.sh &
+
 mount tmpfs -t tmpfs /tmp
 export PATH="/usr/nova/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/usr/nova/lib:$LD_LIBRARY_PATH"
@@ -64,7 +67,8 @@ if [ $try_times -ge 600 ];then
 fi
 
 # wait fpga loaded then reconnect 9136(hdmi)
-echo 2 > /sys/devices/platform/i2c-gpio.0/i2c-0/i2c-3/3-0039/sii9136_reconnect/sii9136_reconnect_sel
+# echo 2 > /sys/devices/platform/i2c-gpio.0/i2c-0/i2c-3/3-0039/sii9136_reconnect/sii9136_reconnect_sel
+killall lock_sil9136.sh
 
  
 
