@@ -8,5 +8,4 @@ build/*
 Hi3531D_SDK_V1.0.3.0.tgz
 arm-hisiv500-linux.tgz
 arm-hisiv500-linux
-SDK_package/*
-
+local.cfg
