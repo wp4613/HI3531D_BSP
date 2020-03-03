@@ -20,7 +20,6 @@ if [ $? != 0 ];then
     sudo apt install gcc
 fi
 which g++
-sudo apt install libncurses5-dev
 if [ $? != 0 ];then
     sudo apt install g++
 fi
@@ -31,3 +30,12 @@ if [ ! -d build/${HI3531D_SDK} ];then
     ./sdk.unpack
     popd #build/${HI3531D_SDK} 
 fi
+
+pushd resource
+if [ ! -d hidoo_third_soft ]
+    tar xzf hidoo_third_soft.tgz hidoo_third_soft
+fi
+if [ ! -d nova ]
+    tar xzf nova.tgz nova
+fi
+popd

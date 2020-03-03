@@ -6,7 +6,7 @@ fi
 mkdir ${ROOTFS}
 
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
-echo MCU:$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/Hseries/configs/version.txt
+echo app$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/Hseries/configs/version.txt
 
 chmod +x ${TOP_DIRECTOR}/resource/upgrade.sh
 cp ${TOP_DIRECTOR}/resource/upgrade.sh ${ROOTFS}/ -rfd
