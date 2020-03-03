@@ -1,6 +1,5 @@
 tmp_rootfs
-resource/nova/rootfs_bk
-resource/nova/rootfs.tgz
+resource/nova
 resource/hidoo_third_soft
 tools/ver_tool/*.bin
 tools/ver_tool/ver_tool
