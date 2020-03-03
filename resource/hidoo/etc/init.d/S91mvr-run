@@ -1,32 +1,31 @@
 #!/bin/sh
 ulimit -d unlimited
 ulimit -c unlimited
+
+/usr/Hseries/bin/lock_sil9136.sh &
+
 mount tmpfs -t tmpfs /tmp
 export PATH="/usr/nova/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/usr/nova/lib:$LD_LIBRARY_PATH"
 
-if [ -f /usr/H9-MVR/configs/upgrade.tar ];then
-    cd /usr/H9-MVR/configs/
-    tar xvf upgrade.tar
-    if [ -d upgrade ];then
-        if [ $? == 0 ];then
-            cd upgrade
-            chmod +x ./upgrade.sh
-            ./upgrade.sh
-            cd ../
-            upgrade_done=true
-        fi
-        rm upgrade -rf
-    fi
-    if [ $upgrade_done ];then
-        rm upgrade.tar -rf
-    fi
+
+if [ -d /usr/H9-MVR ];then
+    rm /usr/H9-MVR -r
 fi
+
+if [ ! -f /sbin/ip ];then
+    ln -s /bin/ip /sbin/ip                                         
+fi                                                                 
+
+if [ ! -d /var/db ];then                                           
+    mkdir /var/db -p                                               
+fi 
+
 sync
 
-if [ -f /usr/H9-MVR/configs/mvr_fpga.bin ];then
-    /usr/H9-MVR/bin/load_fpga_img.sh /usr/H9-MVR/configs/mvr_fpga.bin
-    mv /usr/H9-MVR/configs/mvr_fpga.bin /usr/nova/etc/fpga/
+if [ -f /usr/Hseries/configs/mvr_fpga.bin ];then
+    /usr/Hseries/bin/load_fpga_img.sh /usr/Hseries/configs/mvr_fpga.bin
+    mv /usr/Hseries/configs/mvr_fpga.bin /usr/nova/etc/fpga/
 fi
 sync
 
@@ -41,49 +40,35 @@ fi
 if [ ! -f "/etc/ssh/ssh_host_rsa_key" ];then
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ""
 fi
-if [ -d "/ko/extdrv/nvp6134_ex.ko" ];then
-    rm /ko/extdrv/nvp6134_ex.ko
-fi
-if [ -d "/ko/extdrv/sil9024_ex.ko" ];then
-    rm /ko/extdrv/sil9024.ko
-fi
 
 chown root /var/empty
 chmod 644 /var/empty/
 /sbin/sshd
 sync
-#new rootfs has not /proc/fpga_cfg0/cfg_result 
-#while [ $(cat /proc/fpga_cfg0/cfg_result) != 0 ]   
-#do
-#    sleep 0.1
-#done
 
-cd /usr/H9-MVR/bin/
-
-if [ ! -f /etc/init.d/S90init-task.sh ];then
-./i2c_test -a 0x70  -w 5    # i2c 选择 9136/6208-1
-./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4_200MHz_Y3Y5Y6Y7_162.5MHz.ini
-else
-./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4_200MHz_Y3Y5Y6Y7_162.5MHz.ini cdcm6208-0 
-fi
-if [ ! -f /etc/init.d/S90init-task.sh ];then
-./i2c_test -a 0x70  -w 6    # i2c 选择 9136/6208-2
-./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini
-else
-./load6208.sh /usr/H9-MVR/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini cdcm6208-1 
-fi
+cd /usr/Hseries/bin/
+./load6208.sh /usr/Hseries/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4_200MHz_Y3Y5Y6Y7_162.5MHz.ini cdcm6208-0 
+./load6208.sh /usr/Hseries/configs/CDCM6208_Settings_hidoo_H9_MVR_Y4-Y7_148.5MHz.ini cdcm6208-1 
 
 #wait 6208-0(1 seconds) 6208-1(3 seconds) latches clock then reload fpga
 sleep 3 
 /usr/nova/bin/enable_arm_access.sh
 /usr/nova/bin/enable_fpga_cfg.sh
 
-while [ $(cat /sys/class/gpio/gpio93/value) != 1 ]
+try_times=0
+while [ $(cat /sys/class/gpio/gpio93/value) != 1 -a $try_times -lt 600 ] #1分钟
 do
-    sleep 0.1  
+    sleep 0.1
+    try_times=$(($try_times+1))
 done
+
+if [ $try_times -ge 600 ];then
+    exit 0
+fi
+
 # wait fpga loaded then reconnect 9136(hdmi)
-echo 2 > /sys/devices/platform/i2c-gpio.0/i2c-0/i2c-3/3-0039/sii9136_reconnect/sii9136_reconnect_sel
+# echo 2 > /sys/devices/platform/i2c-gpio.0/i2c-0/i2c-3/3-0039/sii9136_reconnect/sii9136_reconnect_sel
+killall lock_sil9136.sh
 
  
 
@@ -125,7 +110,7 @@ echo in > /sys/class/gpio/gpio88/direction
 
 #wait fpga init logic
 sleep 2
-/usr/H9-MVR/bin/guardian.sh /usr/H9-MVR/bin/start_video.sh >/dev/null 2>&1 &
-/usr/H9-MVR/bin/guardian.sh "/usr/H9-MVR/bin/spi_master -t 1" > /dev/null 2>&1 &
+/usr/Hseries/bin/guardian.sh /usr/Hseries/bin/start_video.sh >/dev/null 2>&1 &
+/usr/Hseries/bin/guardian.sh "/usr/Hseries/bin/spi_master -t 1" > /dev/null 2>&1 &
 
 

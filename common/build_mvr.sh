@@ -2,7 +2,7 @@
 if [ $# -lt 3 ];then                                               
     echo not version                                          
     echo Useage:                                                                                                                                       
-    echo '  ./build.sh mvr "H_MVR_9U 1.0.0.0 S3.T1" '
+    echo '  ./build.sh mvr "H_MVR_9U 1.0.0.0 S3.T3" '
     exit 1                                                          
 fi
 DEV_V=$1
@@ -14,7 +14,7 @@ if [  -d ${ROOTFS} ];then
     rm ${ROOTFS} -rf
 fi
 
-mkdir ${ROOTFS}
+mkdir ${ROOTFS} -p
 
 if [ ! -d ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc/ ];then
     tar xvf ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/rootfs_uclibc.tgz -C ${TOP_DIRECTOR}/build/${HI3531D_SDK}/osdrv/pub/
@@ -38,13 +38,13 @@ fi
 
 cp ${TOP_DIRECTOR}/resource/hidoo/* ${ROOTFS}/ -rfd
 cp ${TOP_DIRECTOR}/resource/hidoo_third_soft/* ${ROOTFS}/ -rfd
-echo MCU:$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/H9-MVR/configs/version.txt
+echo app$(date '+%Y%m%d%H%M') > ${ROOTFS}/usr/Hseries/configs/version.txt
 
 pushd tools/ver_tool/
 DEV=$DEV_V VER1=$VER1_V VER2=$VER2_V ./create_ver.sh
 cp ./mcu_version.bin ./fpga_version.bin
 cp ./mcu_version.bin ./version.bin
-cp ./*version.bin ${ROOTFS}/usr/H9-MVR/configs/
+cp ./*version.bin ${ROOTFS}/usr/Hseries/configs/
 popd
 
 #chmod +x ${TOP_DIRECTOR}/build/out/${ROOTFS}/ko/load3531d

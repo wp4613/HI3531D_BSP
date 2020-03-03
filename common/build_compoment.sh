@@ -7,7 +7,11 @@ if [ ! -d my_software_set ];then
     fi
 fi
 pushd my_software_set
+
 export ROOTFS=${TOP_DIRECTOR}/resource/hidoo_third_soft
+if [ ! -d  $ROOTFS ];then
+    mkdir $ROOTFS -p
+fi
 if [ "x$ROOTFS" == "x" ];then
     export ROOTFS=${TOP_DIRECTOR}/build/out/rootfs
 fi
